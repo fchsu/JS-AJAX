@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>高雄旅遊資訊 by 峰誠</title>
+	<link rel="shortcut icon" href="img/if_Travel_-_Baloon_82288.png">
+  <meta name="description" content="JS-HW-opendata JavaScript 入門篇-學徒的試煉">
+  <meta property="og:title" content="JavaScript 入門篇-學徒的試煉">
+  <meta property="og:description" content="JS-HW-opendata JavaScript 入門篇-學徒的試煉">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="#">
+  <meta property="og:image" content="img/if_Travel_-_Baloon_82288.png"> 
+  <link rel="apple-touch-icon" href="img/if_Travel_-_Baloon_82288.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/JS-HW-opendata.css">
+</head>
+<body>
+	<div id='showDataId'></div>
+	<div class="wrap">
+		<div class="header">
+			<h1><a href="#">高雄旅遊資訊</a></h1>		
+			<select name="zone" id="zoneId">
+				<option value="_">- - 請選擇行政區- -</option>
+			</select>
+		</div>
+		<div class="KaohsiungTravel">
+			<div class="popularZone">
+				<h3>熱門行政區</h3>
+				<ul id="popularZoneId">
+					<li><input type="button" class="zone1" value="苓雅區"></li>
+					<li><input type="button" class="zone2" value="三民區"></li>
+					<li><input type="button" class="zone3" value="美濃區"></li>
+					<li><input type="button" class="zone4" value="岡山區"></li>
+				</ul>
+			</div>
+			<div id="divideId">
+				<div class="icon_down">
+					<img src="img/icons_down.png" alt="">
+				</div>
+			</div>
+			<h2 id="zoneNameId"></h2>
+			<ul id="selectZoneId"></ul>
+			<a class="scrolltop" href="#"></a>
+			<ul class="page"></ul>
+		</div>
+		<div class="footer">
+			<h4>高雄旅遊網</h4>
+			<p>資料來源：高雄市政府</p>
+		</div>
+	</div>
+	<script src="js/JS-HW-opendata.js"></script>
+</body>
+</html>
