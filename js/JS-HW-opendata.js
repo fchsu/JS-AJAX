@@ -1,5 +1,4 @@
 // 全域變數設定
-var xhr = new XMLHttpRequest();
 var travelData = [];
 var showData = [];
 var listArray = [];
@@ -24,11 +23,12 @@ scrolltopLink.addEventListener("click", scrolltop, false);
 // 函式設定
 	// 網頁載入時，讀取遠端資料
 function updated(e){ 
+	const xhr = new XMLHttpRequest();
 	xhr.open("get", "json/data.JSON", true);
 	xhr.send(null);
 	xhr.onload = function(){
 		if (xhr.readyState === 4){
-			if (xhr.status === 200){
+			// if (xhr.status === 200){
 				let zoneArray = [];
 				let str = "";
 				travelData = JSON.parse(xhr.responseText);
@@ -45,7 +45,7 @@ function updated(e){
 					str += `<option value='${zoneData[j]}'>${zoneData[j]}</option>`;
 				}
 				Zone.innerHTML = `<option value='_'>- - 請選擇行政區- -</option>${str}`;
-			}
+			// }
 		}
 	}
 }
@@ -153,21 +153,16 @@ function showWindow(e){
 		return;
 	}
 	var Num = e.target.dataset.num;
-	// 網頁顯示視窗高度，不含滾動條
-	var viewheight = document.documentElement.clientHeight;		
-	var str = "<div class='showInfo'><div class='showImg'><div class='Picdescribe1-block'><h3>" + showData[Num].Name + "</h3><p>" + showData[Num].Zone + "</p></div></div><ul class='detailList'><li id='description'>" + showData[Num].Description + "</li><li><span><img src='img/icons_clock.png'></span>" + showData[Num].Opentime + "</li><li><span><img src='img/icons_pin.png'></span>" + showData[Num].Add + "</li><li><span><img src='img/icons_phone.png'></span>" + showData[Num].Tel + "</li><li class='Ticketinfo_block'><span><img src='img/icons_tag.png'></span>" + showData[Num].Ticketinfo + "</li></ul></div>";
+	// 網頁顯示視窗高度，不含滾動條	
+	var str = "<div id='showInfoBox'><i class='fas fa-times'></i><div class='showInfo'><div class='showImg'><div class='Picdescribe1-block'><h3>" + showData[Num].Name + "</h3><p>" + showData[Num].Zone + "</p></div></div><ul class='detailList'><li id='description'>" + showData[Num].Description + "</li><li><span><img src='img/icons_clock.png'></span>" + showData[Num].Opentime + "</li><li><span><img src='img/icons_pin.png'></span>" + showData[Num].Add + "</li><li><span><img src='img/icons_phone.png'></span>" + showData[Num].Tel + "</li><li class='Ticketinfo_block'><span><img src='img/icons_tag.png'></span>" + showData[Num].Ticketinfo + "</li></ul></div></div>";
 	dataBlock.innerHTML = str;
 	dataBlock.style.display = "block";
 	document.querySelector(".showImg").style.backgroundImage = "url('" + showData[Num].Picture1 + "')";
-	var showInfoHeight = document.querySelector(".showInfo").clientHeight;
-	var shiftY = (viewheight - showInfoHeight) / 2; 
-	document.querySelector(".showInfo").style.top = shiftY + "px";
 }
-	// 點擊景點詳細資料外的區域時，關閉景點詳細資料
+	// 點擊景點詳細資料外的區域或 X 符號時，關閉景點詳細資料
 function closeWindow(e){
 	e.stopPropagation();
-	if(e.target.id !== "showDataId"){
-		return;
+	if(e.target.id === "showInfoBox" || e.target.tagName === "I"){
+		dataBlock.style.display = "none";
 	}
-	dataBlock.style.display = "none";
 }
