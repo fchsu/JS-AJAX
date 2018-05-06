@@ -1,7 +1,5 @@
 // 全域變數設定
-var openData1 = new XMLHttpRequest();
-var openData2 = new XMLHttpRequest();
-var openData3 = new XMLHttpRequest();
+var xhr = new XMLHttpRequest();
 var travelData = [];
 var showData = [];
 var listArray = [];
@@ -24,69 +22,30 @@ scrolltopLink.addEventListener("click", scrolltop, false);
 
 
 // 函式設定
-	// 網頁載入時，讀取遠端資料 (前 100 筆)
+	// 網頁載入時，讀取遠端資料
 function updated(e){ 
-	openData1.open("get", "https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97", true);
-	openData1.send(null);
-	openData1.addEventListener("load", open1, false);
-}
-	// 前 100 筆資料讀取完畢後，讀取 101-200 筆資料
-function open1(e){ 
-	if(openData1.readyState === 4){
-		if(openData1.status === 200){
-			var Data = JSON.parse(openData1.responseText);
-			var DataRecord = Data.result.records;
-			var Len = DataRecord.length;
-			for(var i = 0; i < Len; i++){
-				travelData.push(DataRecord[i]);
+	xhr.open("get", "json/data.JSON", true);
+	xhr.send(null);
+	xhr.onload = function(){
+		if (xhr.readyState === 4){
+			if (xhr.status === 200){
+				let zoneArray = [];
+				let str = "";
+				travelData = JSON.parse(xhr.responseText);
+				const LenData = travelData.length;
+				for (let i = 0; i < LenData; i++){
+					zoneArray.push(travelData[i].Zone);
+				}
+				// 篩選不重複的資料 (重複資料只保留一個，其餘剔除)
+				const zoneData = zoneArray.filter(function(item, index, array){
+					return array.indexOf(item) === index;
+				});
+				const LenZone = zoneData.length;
+				for (let j = 0; j < LenZone; j++){
+					str += `<option value='${zoneData[j]}'>${zoneData[j]}</option>`;
+				}
+				Zone.innerHTML = `<option value='_'>- - 請選擇行政區- -</option>${str}`;
 			}
-			openData2.open("get", "https://data.kcg.gov.tw/api/action/datastore_search?offset=100&resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97", true);
-			openData2.send(null);
-			openData2.addEventListener("load", open2, false);
-		}
-	}
-}	
-	// 前 200 筆資料讀取完畢後，讀取 201-300 筆資料
-function open2(e){ 
-	if(openData2.readyState === 4){
-		if(openData2.status === 200){
-			var Data = JSON.parse(openData2.responseText);
-			var DataRecord = Data.result.records;
-			var Len = DataRecord.length;
-			for(var i = 0; i < Len; i++){
-				travelData.push(DataRecord[i]);
-			}
-			openData3.open("get", "https://data.kcg.gov.tw/api/action/datastore_search?offset=200&resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97", true);
-			openData3.send(null);
-			openData3.addEventListener("load", open3, false);
-		}
-	}
-}
-	// 前 300 筆資料讀取完畢後，顯示行政區供選擇
-function open3(e){ 
-	if(openData3.readyState === 4){
-		if(openData3.status === 200){
-			var Data = JSON.parse(openData3.responseText);
-			var DataRecord = Data.result.records;
-			var Len = DataRecord.length;
-			var zoneArray = [];
-			var str = "";
-			for(var i = 0; i < Len; i++){
-				travelData.push(DataRecord[i]);
-			}
-			var LenData = travelData.length;
-			for(var a = 0; a < LenData; a++){
-				zoneArray.push(travelData[a].Zone);
-			}
-			// 篩選不重複的資料 (重複資料只保留一個，其餘剔除)
-			var zoneData = zoneArray.filter(function(item, index, array){
-				return array.indexOf(item) === index;
-			});
-			var LenZone = zoneData.length;
-			for(var j = 0; j < LenZone; j++){
-				str += "<option value='" + zoneData[j] + "'>" + zoneData[j] + "</option>"
-			}
-			Zone.innerHTML = "<option value='_'>- - 請選擇行政區- -</option>" + str;
 		}
 	}
 }
