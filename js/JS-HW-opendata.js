@@ -28,7 +28,7 @@ function updated(e){
 	xhr.send(null);
 	xhr.onload = function(){
 		if (xhr.readyState === 4){
-			// if (xhr.status === 200){
+			if (xhr.status === 200){
 				let zoneArray = [];
 				let str = "";
 				travelData = JSON.parse(xhr.responseText);
@@ -45,7 +45,7 @@ function updated(e){
 					str += `<option value='${zoneData[j]}'>${zoneData[j]}</option>`;
 				}
 				Zone.innerHTML = `<option value='_'>- - 請選擇行政區- -</option>${str}`;
-			// }
+			}
 		}
 	}
 }
